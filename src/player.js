@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 // here we have the player and it's movement
 
+// second update
+
 export class Player extends THREE.Mesh {
   /**
    * @type {THREE.Raycaster}
