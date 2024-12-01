@@ -10,6 +10,8 @@ const gridTexture = textureLoader.load('textures/grid.png');
 
 export class World extends THREE.Group {
   #objectMap = new Map();
+  players = new Set(); // 20241201
+
 
   constructor(width, height) {
     super();
@@ -127,11 +129,31 @@ export class World extends THREE.Group {
       return false;
     }
 
-    group.add(object);
+    // group.add(object); 20241201 -> Removed
+
+    if (group === this) { // 20241201
+      this.players.add(object); // Add player to the set
+    } else {
+      group.add(object);
+    }
+
     this.#objectMap.set(getKey(coords), object);
 
     return true;
   }
+
+  // 20241201
+    removeObject(coords) {
+      const object = this.#objectMap.get(getKey(coords));
+      if (object) {
+        this.#objectMap.delete(getKey(coords));
+        if (this.players.has(object)) {
+          this.players.delete(object);
+        } else {
+          object.parent.remove(object);
+        }
+      }
+    }
 
   /**
    * Returns the object at `coords` if one exists, otherwise returns null

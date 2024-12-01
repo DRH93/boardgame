@@ -25,12 +25,12 @@ export class MovementAction extends Action {
 
   async perform() {
     return new Promise((resolve) => {
-      function updateSourcePosition() {
+  /*     function updateSourcePosition() {
         // If we reached the end of the path, then stop
         // the movement update interval, clear the path
         // breadcrumbs, and resolve this action to unblock
         // the combat manager
-        if (this.pathIndex === this.path.length) {
+       if (this.pathIndex === this.path.length) {
           clearInterval(this.pathUpdater);
           this.world.path.clear();
           resolve();
@@ -39,6 +39,19 @@ export class MovementAction extends Action {
         } else {
           const curr = this.path[this.pathIndex++];
           this.source.moveTo(curr);
+        }
+      }*/
+
+      function updateSourcePosition() {
+        if (this.pathIndex === this.path.length) {
+          clearInterval(this.pathUpdater);
+          this.world.path.clear();
+          resolve();
+        } else {
+          const curr = this.path[this.pathIndex++];
+          this.world.removeObject(this.source.coords);
+          this.source.moveTo(curr);
+          this.world.addObject(this.source, curr, this.world);
         }
       }
 

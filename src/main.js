@@ -33,6 +33,10 @@ scene.add(player1);
 const player2 = new HumanPlayer(new THREE.Vector3(8, 0, 3), camera, world);
 scene.add(player2);
 
+// Add these two lines here
+world.addObject(player1, player1.coords, world);
+world.addObject(player2, player2.coords, world);
+
 const combatManager = new CombatManager();
 combatManager.addPlayer(player1);
 combatManager.addPlayer(player2);
